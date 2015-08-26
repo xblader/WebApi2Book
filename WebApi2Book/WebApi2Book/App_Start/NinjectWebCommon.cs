@@ -1,7 +1,7 @@
-[assembly: WebActivatorEx.PreApplicationStartMethod(typeof(WebApi2Book.App_Start.NinjectWebCommon), "Start")]
-[assembly: WebActivatorEx.ApplicationShutdownMethodAttribute(typeof(WebApi2Book.App_Start.NinjectWebCommon), "Stop")]
+[assembly: WebActivatorEx.PreApplicationStartMethod(typeof(WebApi2Book.Web.Api.App_Start.NinjectWebCommon), "Start")]
+[assembly: WebActivatorEx.ApplicationShutdownMethodAttribute(typeof(WebApi2Book.Web.Api.App_Start.NinjectWebCommon), "Stop")]
 
-namespace WebApi2Book.App_Start
+namespace WebApi2Book.Web.Api.App_Start
 {
     using System;
     using System.Web;
