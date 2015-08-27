@@ -14,6 +14,9 @@ using Ninject.Activation;
 using Ninject.Web.Common;
 using WebApi2Book.Data.SqlServer.Mapping;
 using WebApi2Book.Web.Common;
+using WebApi2Book.Web.Common.Security;
+using WebApi2Book.Common.Security;
+using WebApi2Book.Data.QueryProcessors;
 
 namespace WebApi2Book.Web.Api
 {
@@ -26,6 +29,7 @@ namespace WebApi2Book.Web.Api
         private void AddBindings(IKernel container)
         {
             ConfigureLog4net(container);
+            ConfigureUserSession(container);
             ConfigureNHibernate(container);
             container.Bind<IDateTime>().To<DateTimeAdapter>().InSingletonScope();
         }
@@ -59,6 +63,14 @@ namespace WebApi2Book.Web.Api
                 CurrentSessionContext.Bind(session);
             }
             return sessionFactory.GetCurrentSession();
+        }
+
+        private void ConfigureUserSession(IKernel container)
+        {
+            var userSession = new UserSession();
+            container.Bind<IUserSession>().ToConstant(userSession).InSingletonScope();
+            container.Bind<IWebUserSession>().ToConstant(userSession).InSingletonScope();
+            container.Bind<IAddTaskQueryProcessor>().To<AddTaskQueryProcessor>().InRequestScope();
         }
     }
 }

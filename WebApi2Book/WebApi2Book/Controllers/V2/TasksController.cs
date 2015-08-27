@@ -13,7 +13,7 @@ namespace WebApi2Book.Controllers.V2
     {
         [Route("", Name = "AddTaskRouteV2")]
         [HttpPost]
-        public Task AddTask(HttpRequestMessage requestMessage, Task newTask)
+        public Task AddTask(HttpRequestMessage requestMessage, NewTaskV2 newTask)
         {
             return new Task
             {
