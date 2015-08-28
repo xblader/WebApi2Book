@@ -17,6 +17,9 @@ using WebApi2Book.Web.Common;
 using WebApi2Book.Web.Common.Security;
 using WebApi2Book.Common.Security;
 using WebApi2Book.Data.QueryProcessors;
+using WebApi2Book.Common.TypeMapping;
+using WebApi2Book.Web.Api.MaintenanceProcessing;
+using WebApi2Book.Web.Api.AutoMappingConfiguration;
 
 namespace WebApi2Book.Web.Api
 {
@@ -31,8 +34,11 @@ namespace WebApi2Book.Web.Api
             ConfigureLog4net(container);
             ConfigureUserSession(container);
             ConfigureNHibernate(container);
+            ConfigureAutoMapper(container);
             container.Bind<IDateTime>().To<DateTimeAdapter>().InSingletonScope();
-        }
+            container.Bind<IAddTaskMaintenanceProcessor>().To<AddTaskMaintenanceProcessor>()
+.InRequestScope();
+        }        
 
         private void ConfigureLog4net(IKernel container)
         {
@@ -46,9 +52,9 @@ namespace WebApi2Book.Web.Api
             var sessionFactory = Fluently.Configure()
             .Database(
             MsSqlConfiguration.MsSql2008.ConnectionString(c => c.FromConnectionStringWithKey("WebApi2BookDb")))
-.CurrentSessionContext("web")
-.Mappings(m => m.FluentMappings.AddFromAssemblyOf<TaskMap>())
-.BuildSessionFactory();
+                .CurrentSessionContext("web")
+                .Mappings(m => m.FluentMappings.AddFromAssemblyOf<TaskMap>())
+                .BuildSessionFactory();
             container.Bind<ISessionFactory>().ToConstant(sessionFactory);
             container.Bind<ISession>().ToMethod(CreateSession).InRequestScope();
             container.Bind<IActionTransactionHelper>().To<ActionTransactionHelper>().InRequestScope();
@@ -71,6 +77,29 @@ namespace WebApi2Book.Web.Api
             container.Bind<IUserSession>().ToConstant(userSession).InSingletonScope();
             container.Bind<IWebUserSession>().ToConstant(userSession).InSingletonScope();
             container.Bind<IAddTaskQueryProcessor>().To<AddTaskQueryProcessor>().InRequestScope();
+        }
+
+        private void ConfigureAutoMapper(IKernel container)
+        {
+            container.Bind<IAutoMapper>().To<AutoMapperAdapter>().InSingletonScope();
+            container.Bind<IAutoMapperTypeConfigurator>()
+            .To<StatusEntityToStatusAutoMapperTypeConfigurator>()
+            .InSingletonScope();
+            container.Bind<IAutoMapperTypeConfigurator>()
+            .To<StatusToStatusEntityAutoMapperTypeConfigurator>()
+            .InSingletonScope();
+            container.Bind<IAutoMapperTypeConfigurator>()
+            .To<UserEntityToUserAutoMapperTypeConfigurator>()
+            .InSingletonScope();
+            container.Bind<IAutoMapperTypeConfigurator>()
+            .To<UserToUserEntityAutoMapperTypeConfigurator>()
+            .InSingletonScope();
+            container.Bind<IAutoMapperTypeConfigurator>()
+            .To<NewTaskToTaskEntityAutoMapperTypeConfigurator>()
+            .InSingletonScope();
+            container.Bind<IAutoMapperTypeConfigurator>()
+            .To<TaskEntityToTaskAutoMapperTypeConfigurator>()
+            .InSingletonScope();
         }
     }
 }
