@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace WebApi2Book.Web.Api.Models
 {
-    public class Class1
+    public interface ILinkContaining
     {
+        List<Link> Links { get; set; }
+        void AddLink(Link link);
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Web;
 using WebApi2Book.Common.TypeMapping;
 using WebApi2Book.Data.QueryProcessors;
@@ -23,6 +24,13 @@ namespace WebApi2Book.Web.Api.MaintenanceProcessing
             var taskEntity = _autoMapper.Map<Data.Entities.Task>(newTask);
             _queryProcessor.AddTask(taskEntity);
             var task = _autoMapper.Map<Task>(taskEntity);
+            // TODO: Implement link service
+            task.AddLink(new Link
+            {
+                Method = HttpMethod.Get.Method,
+                Href = "http://localhost:61589/api/v1/tasks/" + task.TaskId,
+                Rel = WebApi2Book.Common.Constants.CommonLinkRelValues.Self
+            });
             return task;
         }
     }
