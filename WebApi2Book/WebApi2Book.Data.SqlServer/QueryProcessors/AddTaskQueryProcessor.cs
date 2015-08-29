@@ -26,8 +26,7 @@ namespace WebApi2Book.Data.QueryProcessors
             task.CreatedDate = _dateTime.UtcNow;
             task.Status = _session.QueryOver<Status>().Where(
             x => x.Name == "Not Started").SingleOrDefault();
-            task.CreatedBy = _session.QueryOver<User>().Where(
-            x => x.Username == _userSession.Username).SingleOrDefault();
+            task.CreatedBy = _session.Get<User>(1L);//_session.QueryOver<User>().Where(x => x.Username == _userSession.Username).SingleOrDefault();
             if (task.Users != null && task.Users.Any())
             {
                 for (var i = 0; i < task.Users.Count; ++i)
