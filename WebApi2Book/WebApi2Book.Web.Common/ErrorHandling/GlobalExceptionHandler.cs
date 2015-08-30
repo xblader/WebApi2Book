@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http.ExceptionHandling;
+using WebApi2Book.Common;
 using WebApi2Book.Data.Exceptions;
 
 namespace WebApi2Book.Web.Common.ErrorHandling
@@ -25,6 +26,12 @@ namespace WebApi2Book.Web.Common.ErrorHandling
             if (exception is RootObjectNotFoundException)
             {
                 context.Result = new SimpleErrorResult(context.Request, HttpStatusCode.NotFound,
+                exception.Message);
+                return;
+            }
+            if (exception is BusinessRuleViolationException)
+            {
+                context.Result = new SimpleErrorResult(context.Request, HttpStatusCode.PaymentRequired,
                 exception.Message);
                 return;
             }

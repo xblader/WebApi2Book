@@ -22,6 +22,7 @@ using WebApi2Book.Web.Api.MaintenanceProcessing;
 using WebApi2Book.Web.Api.AutoMappingConfiguration;
 using WebApi2Book.Web.Api.Security;
 using WebApi2Book.Data.SqlServer.QueryProcessors;
+using WebApi2Book.MaintenanceProcessing;
 
 namespace WebApi2Book.Web.Api
 {
@@ -44,6 +45,7 @@ namespace WebApi2Book.Web.Api
             container.Bind<ITaskByIdQueryProcessor>().To<TaskByIdQueryProcessor>().InRequestScope();
             container.Bind<IUpdateTaskStatusQueryProcessor>().To<UpdateTaskStatusQueryProcessor>()
 .InRequestScope();
+            container.Bind<IStartTaskWorkflowProcessor>().To<StartTaskWorkflowProcessor>().InRequestScope();
         }        
 
         private void ConfigureLog4net(IKernel container)
