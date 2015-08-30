@@ -18,11 +18,14 @@ namespace WebApi2Book.Controllers.V1
     {
         private readonly IStartTaskWorkflowProcessor _startTaskWorkflowProcessor;
         private readonly ICompleteTaskWorkflowProcessor _completeTaskWorkflowProcessor;
+        private readonly IReactivateTaskWorkflowProcessor _reactivateTaskWorkflowProcessor;
         public TaskWorkflowController(IStartTaskWorkflowProcessor startTaskWorkflowProcessor,
-        ICompleteTaskWorkflowProcessor completeTaskWorkflowProcessor)
+        ICompleteTaskWorkflowProcessor completeTaskWorkflowProcessor,
+        IReactivateTaskWorkflowProcessor reactivateTaskWorkflowProcessor)
         {
             _startTaskWorkflowProcessor = startTaskWorkflowProcessor;
             _completeTaskWorkflowProcessor = completeTaskWorkflowProcessor;
+            _reactivateTaskWorkflowProcessor = reactivateTaskWorkflowProcessor;
         }
         [HttpPost]
         [Authorize(Roles = Constants.RoleNames.SeniorWorker)]
@@ -37,6 +40,13 @@ namespace WebApi2Book.Controllers.V1
         public Task CompleteTask(long taskId)
         {
             var task = _completeTaskWorkflowProcessor.CompleteTask(taskId);
+            return task;
+        }
+        [HttpPost]
+        [Route("tasks/{taskId:long}/reactivations", Name = "ReactivateTaskRoute")]
+        public Task ReactivateTask(long taskId)
+        {
+            var task = _reactivateTaskWorkflowProcessor.ReactivateTask(taskId);
             return task;
         }
     }

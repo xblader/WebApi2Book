@@ -78,7 +78,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActionTransactionHelper.cs" />
-    <Compile Include="Class1.cs" />
     <Compile Include="ErrorHandling\GlobalExceptionHandler.cs" />
     <Compile Include="ErrorHandling\SimpleErrorResult.cs" />
     <Compile Include="ErrorHandling\SimpleExceptionLogger.cs" />
