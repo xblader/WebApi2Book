@@ -17,6 +17,15 @@ namespace WebApi2Book.Web.Api.Models
         public DateTime? CompletedDate { get; set; }
         public Status Status { get; set; }
         public List<User> Assignees { get; set; }
+        private bool _shouldSerializeAssignees;
+        public void SetShouldSerializeAssignees(bool shouldSerialize)
+        {
+            _shouldSerializeAssignees = shouldSerialize;
+        }
+        public bool ShouldSerializeAssignees()
+        {
+            return _shouldSerializeAssignees;
+        }
         public List<Link> Links
         {
             get { return _links ?? (_links = new List<Link>()); }
