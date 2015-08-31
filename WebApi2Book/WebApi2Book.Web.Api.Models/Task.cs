@@ -18,6 +18,10 @@ namespace WebApi2Book.Web.Api.Models
         public Status Status { get; set; }
         public List<User> Assignees { get; set; }
         private bool _shouldSerializeAssignees;
+        /// <summary>
+        /// Convention for Web API. ShouldSerialize + PropertyName.
+        /// </summary>
+        /// <param name="shouldSerialize"></param>
         public void SetShouldSerializeAssignees(bool shouldSerialize)
         {
             _shouldSerializeAssignees = shouldSerialize;
